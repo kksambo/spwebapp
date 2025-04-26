@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Provider Profile</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 56px;
+            background-color: #f8f9fa;
+        }
+        .profile-image {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        .container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Service Provider Portal</a>
+        <div class="ml-auto">
+            <button type="button" class="btn btn-primary mr-2" id="editProfileBtn">Update Profile</button>
+            <form action="index.html" style="display: inline;">
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Profile Content -->
+<div class="container">
+    <h2 class="text-center">Service Provider Profile</h2>
+
+    <!-- Service Provider Image -->
+    <div class="text-center">
+        <img src="images/one.png" id="profileImage" alt="Service Provider Image" class="profile-image" />
+    </div>
+
+    <!-- Service Provider Information -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <p><strong>Full Name:</strong> <span id="fullName">-</span></p>
+            <p><strong>Service Provider ID:</strong> <span id="serviceProviderID">-</span></p>
+            <p><strong>Home Address:</strong> <span id="homeAddress">-</span></p>
+            <p><strong>Contact Number:</strong> <span id="contactNumber">-</span></p>
+            <p><strong>Service Name:</strong> <span id="serviceName">-</span></p>
+            <p><strong>Service Description:</strong> <span id="serviceDescription">-</span></p>
+            <p><strong>Service Price:</strong> <span id="servicePrice">-</span> ZAR</p>
+            <p><strong>Available Times:</strong> <span id="availableTimes">-</span></p>
+            <p><strong>Promotional Deal:</strong> <span id="promotionalDeal">-</span></p>
+        </div>
+    </div>
+
+    <hr/>
+
+    <!-- Booking Information -->
+    <h3>Upcoming Appointments</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Client Name</th>
+                <th>Appointment Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="appointmentsTable">
+            <tr>
+                <td>John Doe</td>
+                <td>2025-03-26</td>
+                <td>Pending</td>
+                <td>
+                    <form action="acceptAppointment" method="POST">
+                        <input type="hidden" name="appointmentId" value="1" />
+                        <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>Jane Smith</td>
+                <td>2025-03-27</td>
+                <td>Pending</td>
+                <td>
+                    <form action="acceptAppointment" method="POST">
+                        <input type="hidden" name="appointmentId" value="2" />
+                        <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal for Profile Update -->
+<div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form id="profileForm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Update Profile</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+                <input type="text" id="inputFullName" class="form-control mb-2" placeholder="Full Name">
+                <input type="text" id="inputServiceProviderID" class="form-control mb-2" placeholder="Service Provider ID">
+                <input type="text" id="inputHomeAddress" class="form-control mb-2" placeholder="Home Address">
+                <input type="text" id="inputContactNumber" class="form-control mb-2" placeholder="Contact Number">
+                <input type="text" id="inputServiceName" class="form-control mb-2" placeholder="Service Name">
+                <input type="text" id="inputServiceDescription" class="form-control mb-2" placeholder="Service Description">
+                <input type="number" id="inputServicePrice" class="form-control mb-2" placeholder="Service Price">
+                <input type="text" id="inputAvailableTimes" class="form-control mb-2" placeholder="Available Times">
+                <input type="text" id="inputPromotionalDeal" class="form-control mb-2" placeholder="Promotional Deal">
+                <input type="text" id="inputImageURL" class="form-control mb-2" placeholder="Profile Image URL">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save Profile</button>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+    // Fetch and display profile info on page load
+    let currentProfile = {};
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Replace with the actual service provider ID (e.g., from session or local storage)
+        const serviceProviderID = localStorage.getItem('id');// Example ID
+
+        fetch(`https://sp-09gc.onrender.com/api/get_profile?id=${serviceProviderID}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch profile data.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    console.log('No profile found.');
+                    alert('No profile found for the given Service Provider ID.');
+                    return;
+                }
+                currentProfile = data;
+                document.getElementById('fullName').textContent = data.fullName || '-';
+                document.getElementById('serviceProviderID').textContent = data.serviceProviderID || '-';
+                document.getElementById('homeAddress').textContent = data.homeAddress || '-';
+                document.getElementById('contactNumber').textContent = data.contactNumber || '-';
+                document.getElementById('serviceName').textContent = data.serviceName || '-';
+                document.getElementById('serviceDescription').textContent = data.serviceDescription || '-';
+                document.getElementById('servicePrice').textContent = data.servicePrice || '-';
+                document.getElementById('availableTimes').textContent = data.availableTimes || '-';
+                document.getElementById('promotionalDeal').textContent = data.promotionalDeal || '-';
+                if (data.profileImage) {
+                    document.getElementById('profileImage').src = data.profileImage;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching profile:', error);
+                alert('Failed to load profile. Please try again later.');
+            });
+    });
+
+    // Open modal and prefill fields
+    document.getElementById('editProfileBtn').addEventListener('click', function () {
+        document.getElementById('inputFullName').value = currentProfile.fullName || '';
+        document.getElementById('inputServiceProviderID').value = currentProfile.serviceProviderID || '';
+        document.getElementById('inputHomeAddress').value = currentProfile.homeAddress || '';
+        document.getElementById('inputContactNumber').value = currentProfile.contactNumber || '';
+        document.getElementById('inputServiceName').value = currentProfile.serviceName || '';
+        document.getElementById('inputServiceDescription').value = currentProfile.serviceDescription || '';
+        document.getElementById('inputServicePrice').value = currentProfile.servicePrice || '';
+        document.getElementById('inputAvailableTimes').value = currentProfile.availableTimes || '';
+        document.getElementById('inputPromotionalDeal').value = currentProfile.promotionalDeal || '';
+        document.getElementById('inputImageURL').value = currentProfile.profileImage || '';
+
+        $('#profileModal').modal('show');
+    });
+
+    // Save updated profile
+    document.getElementById('profileForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Validate input fields
+        const profileData = {
+            fullName: document.getElementById('inputFullName').value.trim(),
+            serviceProviderID: document.getElementById('inputServiceProviderID').value.trim(),
+            homeAddress: document.getElementById('inputHomeAddress').value.trim(),
+            contactNumber: document.getElementById('inputContactNumber').value.trim(),
+            serviceName: document.getElementById('inputServiceName').value.trim(),
+            serviceDescription: document.getElementById('inputServiceDescription').value.trim(),
+            servicePrice: parseFloat(document.getElementById('inputServicePrice').value.trim()) || 0,
+            availableTimes: document.getElementById('inputAvailableTimes').value.trim(),
+            promotionalDeal: document.getElementById('inputPromotionalDeal').value.trim(),
+            profileImage: document.getElementById('inputImageURL').value.trim(),
+        };
+
+        // Ensure required fields are filled
+        if (!profileData.fullName || !profileData.serviceProviderID || !profileData.contactNumber) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+
+        fetch('https://sp-09gc.onrender.com/api/update_profile', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(profileData),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update profile.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Profile updated successfully!');
+                location.reload(); // Reload the page to reflect changes
+            })
+            .catch(error => {
+                console.error('Error updating profile:', error);
+                alert('Failed to update profile. Please try again later.');
+            });
+
+        $('#profileModal').modal('hide');
+    });
+</script>
+
+</body>
+</html>

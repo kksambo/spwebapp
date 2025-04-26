@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Service Request Dashboard - Client</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      padding-top: 56px;
+    }
+
+    header {
+      height: 80px;
+      width: 100%;
+    }
+
+    h1 {
+      color: red;
+    }
+
+    button {
+      background-color: blue;
+      border-radius: 30%;
+    }
+
+    .service-card {
+      margin-bottom: 20px;
+    }
+
+    .dashboard {
+      margin-top: 20px;
+    }
+
+    .service-request {
+      margin-top: 40px;
+    }
+
+    /* Search bar style */
+    .search-bar {
+      width: 100%; /* This ensures it takes up all available width */
+    }
+
+    /* Navigation item color */
+    .navbar-nav .nav-link {
+      color: black;
+    }
+
+    /* Centering the search bar */
+    .search-container {
+      display: flex;
+      justify-content: center;
+      flex-grow: 1; /* Allows the search container to grow and take up space */
+      margin-left: 0; /* Remove any margin */
+      margin-right: 0; /* Remove any margin */
+    }
+
+    .navbar-nav {
+      flex-grow: 0; /* Prevent navbar items from expanding */
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+    <a class="navbar-brand" href="#">Service Request Portal</a>
+    <div class="search-container">
+      <!-- Search form -->
+      <form class="form-inline my-2 my-lg-0 ml-3">
+        <input class="form-control search-bar mr-sm-2" type="search" placeholder="Search services" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+      aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          <a class="nav-link" href="profile.html">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="text-white text-center py-3">
+    <div></div>
+  </header>
+
+  <div class="container mt-3 dashboard">
+    <h2 class="text-center">Welcome to Your Service Request Dashboard</h2>
+    <p class="text-center">You are logged in and can now check the available services.</p>
+
+    <div class="row">
+      <!-- Service Request: Cleaning -->
+      <div class="col-lg-4 col-md-6 mb-4 service-card">
+        <div class="card h-100">
+          <a href="cleaning-service.html"> <!-- Wrap the image in an anchor tag to make it clickable -->
+            <img class="card-img-top" src="images/cleaning.jpg" alt="Cleaning">
+          </a>
+          <div class="card-body">
+            <h4 class="card-title">Cleaning Service</h4>
+            <p class="card-text">We provide professional cleaning services for homes and offices. Let us help keep your space spotless!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service Request: Cooking -->
+      <div class="col-lg-4 col-md-6 mb-4 service-card">
+        <div class="card h-100">
+          <a href="cooking-service.html"> <!-- Wrap the image in an anchor tag to make it clickable -->
+            <img class="card-img-top" src="images/cooking.jpg" alt="Cooking">
+          </a>
+          <div class="card-body">
+            <h4 class="card-title">Cooking Service</h4>
+            <p class="card-text">We offer skilled chefs to prepare meals for any occasion. Whether it's daily meals or special events, we’ve got you covered.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service Request: Painting -->
+      <div class="col-lg-4 col-md-6 mb-4 service-card">
+        <div class="card h-100">
+          <a href="painting-service.html"> <!-- Wrap the image in an anchor tag to make it clickable -->
+            <img class="card-img-top" src="images/painting.jpg" alt="Painting">
+          </a>
+          <div class="card-body">
+            <h4 class="card-title">Painting Service</h4>
+            <p class="card-text">Looking to refresh your space? We offer both interior and exterior painting services to make your home or office shine.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service Request: Lawn Care -->
+      <div class="col-lg-4 col-md-6 mb-4 service-card">
+        <div class="card h-100">
+          <a href="lawn-care-service.html"> <!-- Wrap the image in an anchor tag to make it clickable -->
+            <img class="card-img-top" src="images/lawn.jpg" alt="Lawn Care">
+          </a>
+          <div class="card-body">
+            <h4 class="card-title">Lawn Care Service</h4>
+            <p class="card-text">Our lawnmower service will keep your garden looking beautiful. We provide lawn mowing and landscape maintenance services.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service Request: Hairdressing -->
+      <div class="col-lg-4 col-md-6 mb-4 service-card">
+        <div class="card h-100">
+          <a href="hairdressing-service.html"> <!-- Wrap the image in an anchor tag to make it clickable -->
+            <img class="card-img-top" src="images/hair.jpg" alt="Hairdressing">
+          </a>
+          <div class="card-body">
+            <h4 class="card-title">Hairdressing Service</h4>
+            <p class="card-text">Our professional hairdressers provide haircuts, styling, and treatments to leave you feeling refreshed and confident.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Fetch services from the backend
+        fetch('https://sp-09gc.onrender.com/api/get-services')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch services.');
+                }
+                return response.json();
+            })
+            .then(services => {
+                const servicesContainer = document.querySelector('.row'); // Assuming the services are in a row container
+                servicesContainer.innerHTML = ''; // Clear existing hardcoded cards
+
+                // Dynamically create service cards
+                services.forEach(service => {
+                    const card = document.createElement('div');
+                    card.className = 'col-lg-4 col-md-6 mb-4 service-card';
+                    card.innerHTML = `
+                        <div class="card h-100">
+                            <img class="card-img-top" src="${service.serviceImage}" alt="${service.serviceName}">
+                            <div class="card-body">
+                                <h4 class="card-title">${service.serviceName}</h4>
+                                <p class="card-text">${service.serviceDescription}</p>
+                                <p class="card-text"><strong>Provider:</strong> ${service.serviceProviderName}</p>
+                                <p class="card-text"><strong>Price:</strong> $${service.servicePrice.toFixed(2)}</p>
+                                <button onClick="book(${service.id},${localStorage.getItem('id')})" type="button" class="btn btn-success" >
+                                  <i class="fas fa-check"></i>Book</button>
+
+
+                                <button type="button" class="btn btn-danger">
+                                  <i class="fas fa-times"></i>Cancel Booking</button>
+                            </div>
+                        </div>
+                    `;
+                    servicesContainer.appendChild(card);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching services:', error);
+                alert('Failed to load services. Please try again later.');
+            });
+    });
+
+    async function book(sp,cl){
+const data = {
+  
+  serviceProvider: sp,
+  client : cl
+}
+      
+try {
+            const response = await fetch('https://sp-09gc.onrender.com/api/create-booking', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert('booking created successfully!');
+
+            } else {
+                alert(`Error: ${result.message}`);
+            }
+        } catch (error) {
+            console.error('Fetch error:', error);
+            alert('Failed to connect to the server.');
+        }
+      console.log(data);
+    }
+</script>
+</body>
+
+</html>
