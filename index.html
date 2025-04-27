@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            background: url('images/hub.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .main-container {
+            min-height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .left-section {
+            color: white;
+            padding: 20px;
+            max-width: 500px;
+        }
+
+        .left-section h1 {
+            font-size: 2.5rem;
+            color: #0d6efd;
+            margin-bottom: 20px;
+        }
+
+        .left-section p {
+            font-size: 1.1rem;
+            color: #d1d1d1;
+        }
+
+        .right-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 450px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            flex: 1;
+            text-align: center;
+            background: none;
+            border: none;
+            padding: 10px;
+            font-weight: bold;
+            color: #0d6efd;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-button.active, .tab-button:hover {
+            border-bottom: 2px solid #0d6efd;
+            color: #0d6efd;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, select {
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        input[type="submit"] {
+            background-color: #0d6efd;
+            color: white;
+            font-weight: bold;
+            border: none;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0b5ed7;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .left-section, .right-section {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="main-container">
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Service Hub</a>
+        </div>
+    </nav>
+
+    <div class="content container">
+        <div class="left-section">
+            <h1>Welcome to Service Hub</h1>
+            <p>Your one-stop platform for services like cleaning, cooking, painting, and more. Reliable professionals, fast service. Explore now!</p>
+        </div>
+
+        <div class="right-section shadow">
+            <div class="tabs">
+                <button class="tab-button active" onclick="showSection('login', event)">Login</button>
+                <button class="tab-button" onclick="showSection('createAccount', event)">Create Account</button>
+                <button class="tab-button" onclick="showSection('forgotPassword', event)">Forgot Password</button>
+            </div>
+
+            <div id="login" class="form-section active">
+                <h3 class="mb-3">Login</h3>
+                <form id="loginForm">
+                    <label>Email:</label>
+                    <input type="email" name="email" class="form-control" required>
+
+                    <label>Password:</label>
+                    <input type="password" name="password" class="form-control" required>
+
+                    <input type="submit" value="Login" class="btn btn-primary w-100">
+                </form>
+            </div>
+
+            <div id="createAccount" class="form-section">
+                <h3 class="mb-3">Create Account</h3>
+                <form id="createAccountForm">
+                    <label>Role:</label>
+                    <select name="createRole" class="form-control" required>
+                        <option value="client">Client</option>
+                        <option value="serviceProvider">Service Provider</option>
+                        <option value="administrator">Administrator</option>
+                    </select>
+
+                    <label>Full Name:</label>
+                    <input type="text" name="name" class="form-control" required>
+
+                    <label>Email:</label>
+                    <input type="email" name="email" class="form-control" required>
+
+                    <label>Password:</label>
+                    <input type="password" name="password" class="form-control" required>
+
+                    <label>Confirm Password:</label>
+                    <input type="password" name="confirmPassword" class="form-control" required>
+
+                    <label>Security Phrase:</label>
+                    <input type="text" name="securityPhrase" class="form-control" required>
+
+                    <input type="submit" value="Create Account" class="btn btn-primary w-100">
+                </form>
+            </div>
+
+            <div id="forgotPassword" class="form-section">
+                <h3 class="mb-3">Forgot Password</h3>
+                <form id="forgotPasswordForm">
+                    <label>Email:</label>
+                    <input type="email" name="email" class="form-control" required>
+
+                    <label>Security Phrase:</label>
+                    <input type="text" name="securityPhrase" class="form-control" required>
+
+                    <label>New Password:</label>
+                    <input type="password" name="newPassword" class="form-control" required>
+
+                    <input type="submit" value="Reset Password" class="btn btn-primary w-100">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function showSection(id, event) {
+        document.querySelectorAll('.form-section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+    }
+
+    // When page loads, only login section visible
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('login').classList.add('active');
+    });
+
+    // Handle Create Account
+    document.getElementById('createAccountForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('https://sp-09gc.onrender.com/api/create-user', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                alert('Account created successfully!');
+                this.reset();
+            } else {
+                alert('Error: ' + result.message);
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Server connection error.');
+        }
+    });
+
+    // Handle Login
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('https://sp-09gc.onrender.com/api/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                localStorage.setItem('name', result.user.name);
+                localStorage.setItem('id', result.user.id);
+
+                if (result.user.role === 'client') {
+                    window.location.href = 'services.html';
+                } else if (result.user.role === 'serviceProvider') {
+                    window.location.href = 'serviceProviderProfile.html';
+                } else if (result.user.role === 'administrator') {
+                    window.location.href = 'adminView.html';
+                }
+            } else {
+                alert('Error: ' + result.message);
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Server connection error.');
+        }
+    });
+
+    // Handle Forgot Password
+    document.getElementById('forgotPasswordForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('https://sp-09gc.onrender.com/api/reset-password', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                alert('Password reset successful!');
+                this.reset();
+            } else {
+                alert('Error: ' + result.message);
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Server connection error.');
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Service Provider Profile</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.6.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 56px;
+            background-color: #f8f9fa;
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-header {
+            margin-bottom: 30px;
+        }
+
+        .btn-submit {
+            background-color: #007bff;
+            color: white;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2 class="text-center form-header">Create Your Service Provider Profile</h2>
+            <form action="SPCreateAccoutServlet.do" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" class="form-control" id="fullName" name="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceProviderID">Service Provider ID</label>
+                    <input type="text" class="form-control" id="serviceProviderID" name="serviceProviderID" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="homeAddress">Home Address</label>
+                    <textarea class="form-control" id="homeAddress" name="homeAddress" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactNumber">Contact Number</label>
+                    <input type="tel" class="form-control" id="contactNumber" name="contactNumber" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceName">Service Name</label>
+                    <input type="text" class="form-control" id="serviceName" name="serviceName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceDescription">Service Description</label>
+                    <textarea class="form-control" id="serviceDescription" name="serviceDescription" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="servicePrice">Service Price (ZAR)</label>
+                    <input type="number" step="0.01" class="form-control" id="servicePrice" name="servicePrice" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="availableTimes">Available Times</label>
+                    <input type="text" class="form-control" id="availableTimes" name="availableTimes" placeholder="e.g., Mon-Fri 9 AM - 5 PM">
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceImage">Service Image</label>
+                    <input type="file" class="form-control-file" id="serviceImage" name="serviceImage" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label for="promotionalDeal">Promotional Deal (Optional)</label>
+                    <textarea class="form-control" id="promotionalDeal" name="promotionalDeal" rows="2"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-submit mt-3">Submit Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Service Provider Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding-top: 80px;
+    }
+    .profile-image {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+    }
+    .profile-card {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.05);
+      margin-bottom: 40px;
+    }
+    h2, h3 {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 576px) {
+      .btn {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" href="#">Service Provider Portal</a>
+    <div class="ml-auto">
+      <button class="btn btn-primary mr-2" id="editProfileBtn">Update Profile</button>
+      <form action="index.html" style="display: inline;">
+        <button type="submit" class="btn btn-danger">Logout</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container">
+  
+  <div class="text-center">
+    <h2>Service Provider Profile</h2>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="profile-card text-center">
+        <img src="images/one.png" id="profileImage" alt="Profile Image" class="profile-image">
+        
+        <div class="text-left mt-4">
+          <p><strong>Full Name:</strong> <span id="fullName">-</span></p>
+          <p><strong>Service Provider ID:</strong> <span id="serviceProviderID">-</span></p>
+          <p><strong>Home Address:</strong> <span id="homeAddress">-</span></p>
+          <p><strong>Contact Number:</strong> <span id="contactNumber">-</span></p>
+          <p><strong>Service Name:</strong> <span id="serviceName">-</span></p>
+          <p><strong>Service Description:</strong> <span id="serviceDescription">-</span></p>
+          <p><strong>Service Price:</strong> <span id="servicePrice">-</span> ZAR</p>
+          <p><strong>Available Times:</strong> <span id="availableTimes">-</span></p>
+          <p><strong>Promotional Deal:</strong> <span id="promotionalDeal">-</span></p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Appointments Table -->
+  <hr class="my-5"/>
+  
+  <h3 class="text-center mb-4">Upcoming Appointments</h3>
+  
+  <div class="table-responsive">
+    <table class="table table-striped shadow-sm">
+      <thead class="thead-light">
+        <tr>
+          <th>Client Name</th>
+          <th>Appointment Date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="appointmentsTable">
+        <!-- Appointments will appear here -->
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Profile Edit Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form id="profileForm" class="w-100">
+      <div class="modal-content">
+        
+        <div class="modal-header">
+          <h5 class="modal-title">Update Profile</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+        <div class="modal-body">
+          <input type="text" id="inputFullName" class="form-control mb-3" placeholder="Full Name" required>
+          <input type="text" id="inputServiceProviderID" class="form-control mb-3" placeholder="Service Provider ID" required>
+          <input type="text" id="inputHomeAddress" class="form-control mb-3" placeholder="Home Address">
+          <input type="text" id="inputContactNumber" class="form-control mb-3" placeholder="Contact Number" required>
+          <input type="text" id="inputServiceName" class="form-control mb-3" placeholder="Service Name">
+          <input type="text" id="inputServiceDescription" class="form-control mb-3" placeholder="Service Description">
+          <input type="number" id="inputServicePrice" class="form-control mb-3" placeholder="Service Price">
+          <input type="text" id="inputAvailableTimes" class="form-control mb-3" placeholder="Available Times">
+          <input type="text" id="inputPromotionalDeal" class="form-control mb-3" placeholder="Promotional Deal">
+          <input type="text" id="inputImageURL" class="form-control mb-3" placeholder="Profile Image URL">
+        </div>
+        
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+
+// Variables
+let currentProfile = {};
+
+// Fetch Profile on Page Load
+document.addEventListener('DOMContentLoaded', function() {
+  const serviceProviderID = localStorage.getItem('id');
+
+  fetch(`https://sp-09gc.onrender.com/api/get_profile?id=${serviceProviderID}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to fetch profile.');
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.error) {
+        alert('No profile found.');
+        return;
+      }
+      
+      currentProfile = data;
+      
+      document.getElementById('fullName').textContent = data.fullName || '-';
+      document.getElementById('serviceProviderID').textContent = data.serviceProviderID || '-';
+      document.getElementById('homeAddress').textContent = data.homeAddress || '-';
+      document.getElementById('contactNumber').textContent = data.contactNumber || '-';
+      document.getElementById('serviceName').textContent = data.serviceName || '-';
+      document.getElementById('serviceDescription').textContent = data.serviceDescription || '-';
+      document.getElementById('servicePrice').textContent = data.servicePrice || '-';
+      document.getElementById('availableTimes').textContent = data.availableTimes || '-';
+      document.getElementById('promotionalDeal').textContent = data.promotionalDeal || '-';
+      
+      if (data.profileImage) {
+        document.getElementById('profileImage').src = data.profileImage;
+      }
+      
+      loadAppointments();
+      
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Failed to load profile.');
+    });
+});
+
+// Load Dummy Appointments
+function loadAppointments() {
+  const appointments = [
+    { id: 1, clientName: 'John Doe', appointmentDate: '2025-03-26', status: 'Pending' },
+    { id: 2, clientName: 'Jane Smith', appointmentDate: '2025-03-27', status: 'Pending' }
+  ];
+
+  const appointmentsTable = document.getElementById('appointmentsTable');
+  appointmentsTable.innerHTML = '';
+
+  appointments.forEach(appointment => {
+    const row = `
+      <tr>
+        <td>${appointment.clientName}</td>
+        <td>${appointment.appointmentDate}</td>
+        <td>${appointment.status}</td>
+        <td>
+          <form action="acceptAppointment" method="POST">
+            <input type="hidden" name="appointmentId" value="${appointment.id}">
+            <button type="submit" class="btn btn-success btn-sm">Accept</button>
+          </form>
+        </td>
+      </tr>
+    `;
+    appointmentsTable.innerHTML += row;
+  });
+}
+
+// Open Edit Modal
+document.getElementById('editProfileBtn').addEventListener('click', function() {
+  document.getElementById('inputFullName').value = currentProfile.fullName || '';
+  document.getElementById('inputServiceProviderID').value = currentProfile.serviceProviderID || '';
+  document.getElementById('inputHomeAddress').value = currentProfile.homeAddress || '';
+  document.getElementById('inputContactNumber').value = currentProfile.contactNumber || '';
+  document.getElementById('inputServiceName').value = currentProfile.serviceName || '';
+  document.getElementById('inputServiceDescription').value = currentProfile.serviceDescription || '';
+  document.getElementById('inputServicePrice').value = currentProfile.servicePrice || '';
+  document.getElementById('inputAvailableTimes').value = currentProfile.availableTimes || '';
+  document.getElementById('inputPromotionalDeal').value = currentProfile.promotionalDeal || '';
+  document.getElementById('inputImageURL').value = currentProfile.profileImage || '';
+
+  $('#profileModal').modal('show');
+});
+
+// Submit Profile Form
+document.getElementById('profileForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const updatedProfile = {
+    fullName: document.getElementById('inputFullName').value.trim(),
+    serviceProviderID: document.getElementById('inputServiceProviderID').value.trim(),
+    homeAddress: document.getElementById('inputHomeAddress').value.trim(),
+    contactNumber: document.getElementById('inputContactNumber').value.trim(),
+    serviceName: document.getElementById('inputServiceName').value.trim(),
+    serviceDescription: document.getElementById('inputServiceDescription').value.trim(),
+    servicePrice: parseFloat(document.getElementById('inputServicePrice').value.trim()) || 0,
+    availableTimes: document.getElementById('inputAvailableTimes').value.trim(),
+    promotionalDeal: document.getElementById('inputPromotionalDeal').value.trim(),
+    profileImage: document.getElementById('inputImageURL').value.trim(),
+  };
+
+  fetch('https://sp-09gc.onrender.com/api/update_profile', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updatedProfile)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to update profile.');
+    }
+    return response.json();
+  })
+  .then(data => {
+    alert('Profile updated successfully!');
+    location.reload();
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Failed to update profile.');
+  });
+
+  $('#profileModal').modal('hide');
+});
+
+</script>
+
+</body>
+</html>
